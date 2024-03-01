@@ -1,19 +1,17 @@
 package com.cis.batch33.library.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.util.List;
+
 
 @Table(name="library_member")
 @Entity
 @Data
-public class LibraryMember {
+public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="member_id")
     private Integer memberId;
 
@@ -23,18 +21,21 @@ public class LibraryMember {
     @Column(name="last_name")
     private String lastName;
 
-    @Column(name="email_id")
+    @Column(name="email_address")
     private String emailAddress;
 
-    @Column(name="phone_no")
+    @Column(name="phone_number")
     private Long phoneNumber;
 
     @Column(name="membership_level")
     private String memberShipLevel;
 
-    @Column(name="address_id")
-    private int addressId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="address_id")
+    private Address address;
 
+    @OneToMany(mappedBy = "member")
+    private List<Checkout> checkouts;
 
     // lombok
 }
